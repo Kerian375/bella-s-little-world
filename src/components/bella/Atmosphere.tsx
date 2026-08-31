@@ -20,6 +20,12 @@ export function Atmosphere({ petals = 12, particles = 16, hearts = 0, tone = "li
   const petalList = useMemo(() => seeded(petals), [petals]);
   const particleList = useMemo(() => seeded(particles).reverse(), [particles]);
   const heartList = useMemo(() => seeded(hearts), [hearts]);
+  // Rendered after hydration only: the decorative inline styles are non-integer
+  // values that React re-serializes differently on the server.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
