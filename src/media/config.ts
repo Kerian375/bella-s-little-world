@@ -2,16 +2,10 @@
  * CENTRAL MEDIA + CONTENT CONFIGURATION
  * -------------------------------------
  * Everything editable lives here: videos, music, the PIN, the counter start
- * date and the written messages. Media files are Bella's real uploaded files,
- * stored permanently on the project CDN (see the *.asset.json pointers).
+ * date and the written messages. Video and audio files are Bella's real
+ * uploaded files, served straight from the /public folder by their exact
+ * filenames. Poster images are the generated CDN thumbnails.
  */
-
-import v1 from "./bella-1.mp4.asset.json";
-import v2 from "./bella-2.mp4.asset.json";
-import v3 from "./bella-3.mp4.asset.json";
-import v4 from "./bella-4.mp4.asset.json";
-import v5 from "./bella-5.mp4.asset.json";
-import v6 from "./bella-6.mp4.asset.json";
 
 import p1 from "./bella-1.jpg.asset.json";
 import p2 from "./bella-2.jpg.asset.json";
@@ -20,9 +14,36 @@ import p4 from "./bella-4.jpg.asset.json";
 import p5 from "./bella-5.jpg.asset.json";
 import p6 from "./bella-6.jpg.asset.json";
 
-import flowers from "./flowers.mp3.asset.json";
-import loveToLose from "./love-to-lose.mp3.asset.json";
-import loveFromDistance from "./love-you-from-a-distance.mp3.asset.json";
+/** Builds a safe URL for a file sitting in /public (handles spaces, parentheses). */
+const pub = (filename: string) => `/${encodeURIComponent(filename)}`;
+
+/** Exact filenames of the uploaded media in /public. Edit here only. */
+export const MEDIA_FILES = {
+  videos: {
+    one: "Snapchat-1480488453.mp4",
+    two: "Snapchat-1782373927.mp4",
+    three: "Snapchat-429223121.mp4",
+    four: "Snapchat-692378242.mp4",
+    five: "VID-20260408-WA0113.mp4",
+    six: "VID-20260630-WA0083.mp4",
+  },
+  songs: {
+    flowers: "Samantha-Ebert-Flowers-Intimate-Version-(CeeNaija.com).mp3",
+    loveToLose: "Sandro_Cavazza_Georgia_Ku_-_Love_To_Lose_(mp3.pm).mp3",
+    loveYouFromADistance: "Ashley_Kutcher_-_Love_You_From_a_Distance_(mp3.pm).mp3",
+  },
+} as const;
+
+const v1 = { url: pub(MEDIA_FILES.videos.one) };
+const v2 = { url: pub(MEDIA_FILES.videos.two) };
+const v3 = { url: pub(MEDIA_FILES.videos.three) };
+const v4 = { url: pub(MEDIA_FILES.videos.four) };
+const v5 = { url: pub(MEDIA_FILES.videos.five) };
+const v6 = { url: pub(MEDIA_FILES.videos.six) };
+
+const flowers = { url: pub(MEDIA_FILES.songs.flowers) };
+const loveToLose = { url: pub(MEDIA_FILES.songs.loveToLose) };
+const loveFromDistance = { url: pub(MEDIA_FILES.songs.loveYouFromADistance) };
 
 export type BellaVideo = {
   id: string;
@@ -30,6 +51,7 @@ export type BellaVideo = {
   poster: string;
   caption: string;
 };
+
 
 export const VIDEOS: Record<string, BellaVideo> = {
   one: { id: "one", src: v1.url, poster: p1.url, caption: "Pretty girl \u2764\ufe0f" },
